@@ -75,22 +75,36 @@ function timeOfTasks () {
 }
 
 function updateTasks (hour) {
-    // have to iterate through div blocks somehow.... 
+    // iterate through Object to update divs
     var keys = Object.keys(tasks);
     hour = hour + "00";
     console.log("moment", hour);
+    var same ="";
+    var after="";
+    var hourToGetDiv ="";
+    var divEl = "";
     for (var i=0; i<keys.length; i++){
         // 
         var Objhour = keys[i];
-        if (moment(Objhour).isAfter(hour)) {
-            console.log("my data", Objhour);
-            var hourToGetDiv = "#" + hour;
+        after = (moment(hour).isAfter(Objhour));
+        same = (moment(hour).isSame(Objhour));
+        if (same){
+            var hourToGetDiv = "#" + Objhour;
             var divEl = $(hourToGetDiv);
+            textArea = divEl.children("textarea");
+            textArea.removeClass("future");
+            textArea.addClass("present");
+        } 
+        if (after) {
+            hourToGetDiv = "#" + Objhour;
+            divEl = $(hourToGetDiv);
+            console.log(divEl);
             textArea = divEl.children("textarea");
             textArea.removeClass("future");
             textArea.addClass("past");
         }
-    }
-    // this is not working as expected. 
+    } 
 }
+    // logic for only certain hours, how to get it to work functionally whole day -- do I need to?
+
 setInterval(timeOfTasks, 1000 * 60);
