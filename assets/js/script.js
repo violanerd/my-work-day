@@ -38,8 +38,9 @@ function loadTasks () {
             var hour = tasks[i][0];
             var activity = tasks[i][1];
             var divEl = document.getElementById(hour);
-            divEl.children
-            console.log(hour, activity, divEl);
+            var textArea = divEl.children[1];
+            textArea.textContent = activity;
+            console.log(hour, activity, divEl, textArea);
         }
     }    
 }
@@ -51,30 +52,7 @@ function loadTasks () {
 //         console.log(kids);
 //         //div.children("textarea").val(activity);            
         
-//     } 
-//     }  
-// }    
-    // Using hour, I would like to het the div
-    
-    //    var textArea = div.children("textarea");
-       //textArea.val(tasks[i][1]);
-       //console.log(div);
-    
-    
-    // for (var i=0; i<tasks.length; i++){
-    //    var hour = tasks[i][0];
-    //    
-    //    console.log(div.attr('data-time'));
-    //    //var textArea = div.children("textarea");
-    //    //textArea.val(tasks[i][1]);
-    //    console.log(div);
-    // }
 
- //how to get the div with the hour information
-    // loop through the tasks
-    // use the hour to find the correct div
-    // set text to that div - same as activity? 
-//}
 
 function saveTasks() {
     localStorage.setItem("tasks", JSON.stringify(tasks));
