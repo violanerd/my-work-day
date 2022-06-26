@@ -10,11 +10,10 @@ $(".save-btn").on("click", function(){
     var div = $(this).closest("div");
     var hour = div.attr('data-time');
     var activity =div.children("textarea").val(); 
-    console.log(hour, activity);
 
     // save in tasks array
     tasks.push([hour, activity]);
-    console.log(tasks);
+
     // tasks gets updated in local storage
     saveTasks();
 });
@@ -31,17 +30,51 @@ loadTasks();
 
 function loadTasks () {
     tasks = JSON.parse(localStorage.getItem("tasks"));
-    console.log(tasks);
- //   for (var i=0; i<tasks.length; i++){
- //       var hour = tasks[i][0];
- //       var div = $("[data-time=").
- //   }
+    
+    if (!tasks) {
+        var tasks = [];
+    } else {
+        for (var i=0; i<tasks.length; i++){
+            var hour = tasks[i][0];
+            var activity = tasks[i][1];
+            var divEl = document.getElementById(hour);
+            divEl.children
+            console.log(hour, activity, divEl);
+        }
+    }    
+}
+// for (var i=0; i<tasks.length; i++){
+//         var hour = tasks[i][0];
+//         var activity = tasks[i][1];
+//         var divEl = document.getElementById(hour);
+//         var kids = divEl.children[1]; // this is javascript, don't know why jquery doesnt work
+//         console.log(kids);
+//         //div.children("textarea").val(activity);            
+        
+//     } 
+//     }  
+// }    
+    // Using hour, I would like to het the div
+    
+    //    var textArea = div.children("textarea");
+       //textArea.val(tasks[i][1]);
+       //console.log(div);
+    
+    
+    // for (var i=0; i<tasks.length; i++){
+    //    var hour = tasks[i][0];
+    //    
+    //    console.log(div.attr('data-time'));
+    //    //var textArea = div.children("textarea");
+    //    //textArea.val(tasks[i][1]);
+    //    console.log(div);
+    // }
 
  //how to get the div with the hour information
     // loop through the tasks
     // use the hour to find the correct div
     // set text to that div - same as activity? 
-}
+//}
 
 function saveTasks() {
     localStorage.setItem("tasks", JSON.stringify(tasks));
