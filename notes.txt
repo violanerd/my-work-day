@@ -1,0 +1,3 @@
+Storing values in an array gave unexpected behavior... my array would be deleted when I refreshed the page and saved something new. 
+
+Changed storage to an object.

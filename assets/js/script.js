@@ -1,5 +1,15 @@
 // hold the tasks
-var tasks = [];
+var tasks = {
+    "0900": "",
+    "1000": "",
+    "1100": "",
+    "1200": "",
+    "1300": "",
+    "1400": "",
+    "1500": "",
+    "1600": "",
+    "1700": "" 
+};
 
 
 
@@ -10,9 +20,9 @@ $(".save-btn").on("click", function(){
     var div = $(this).closest("div");
     var hour = div.attr('data-time');
     var activity =div.children("textarea").val(); 
-
+    console.log(hour, activity);
     // save in tasks array
-    tasks.push([hour, activity]);
+    tasks[hour]= activity;
 
     // tasks gets updated in local storage
     saveTasks();
@@ -61,3 +71,36 @@ function loadTasks () {
 function saveTasks() {
     localStorage.setItem("tasks", JSON.stringify(tasks));
   };
+
+function timeOfTasks () {
+// get the mins of the current hour
+    var mins = moment().format("mm");
+    if (mins === "00"){
+        alert("Tis a new hour");
+    }
+    var hour = moment().format("HH");
+
+    
+    updateTasks(hour);
+// if a new hour, update the tasks
+// remove the current class
+
+// check task hour against hour
+// var hour = moment().add(5, 'hours').format("HH");
+// console.log(hour + "00");
+}
+
+function updateTasks (hour) {
+    // have to iterate through div blocks somehow.... 
+    
+    
+    
+    // format to get element by id
+    hour = "#" + hour + "00";
+    var divEl = $(hour);
+    textArea = divEl.children("textarea");
+    // change classes
+    textArea.removeClass("future");
+    textArea.addClass("past");
+}
+setInterval(timeOfTasks, 1000 * 60);
