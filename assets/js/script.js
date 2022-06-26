@@ -40,10 +40,14 @@ function loadTasks () {
             var divEl = document.getElementById(hour);
             var textArea = divEl.children[1];
             textArea.textContent = activity;
-            console.log(hour, activity, divEl, textArea);
         }
-    }    
+    }
+    console.log(tasks);    
 }
+
+// loading tasks works fine. When I save a new task, the array is deleted... 
+
+// tried the above in JQuery and I was not able to get it to work... 
 // for (var i=0; i<tasks.length; i++){
 //         var hour = tasks[i][0];
 //         var activity = tasks[i][1];
