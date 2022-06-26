@@ -20,7 +20,6 @@ $(".save-btn").on("click", function(){
     var div = $(this).closest("div");
     var hour = div.attr('data-time');
     var activity =div.children("textarea").val(); 
-    console.log(hour, activity);
     // save in tasks array
     tasks[hour]= activity;
 
@@ -40,32 +39,20 @@ loadTasks();
 
 function loadTasks () {
     tasks = JSON.parse(localStorage.getItem("tasks"));
-    
-    if (!tasks) {
-        var tasks = [];
-    } else {
-        for (var i=0; i<tasks.length; i++){
-            var hour = tasks[i][0];
-            var activity = tasks[i][1];
-            var divEl = document.getElementById(hour);
-            var textArea = divEl.children[1];
-            textArea.textContent = activity;
+    var keys = Object.keys(tasks);
+    for (var i=0; i<keys.length; i++){
+        // if there is an activity, update it
+        var hour = keys[i];
+        var activity = tasks[hour];
+        
+        if (activity){
+            hour = "#" + hour;
+            var divEl = $(hour);
+            textArea = divEl.children("textarea");
+            textArea.val(activity);
         }
     }
-    console.log(tasks);    
 }
-
-// loading tasks works fine. When I save a new task, the array is deleted... 
-
-// tried the above in JQuery and I was not able to get it to work... 
-// for (var i=0; i<tasks.length; i++){
-//         var hour = tasks[i][0];
-//         var activity = tasks[i][1];
-//         var divEl = document.getElementById(hour);
-//         var kids = divEl.children[1]; // this is javascript, don't know why jquery doesnt work
-//         console.log(kids);
-//         //div.children("textarea").val(activity);            
-        
 
 
 function saveTasks() {
@@ -79,28 +66,31 @@ function timeOfTasks () {
         alert("Tis a new hour");
     }
     var hour = moment().format("HH");
-
-    
     updateTasks(hour);
 // if a new hour, update the tasks
 // remove the current class
 
 // check task hour against hour
-// var hour = moment().add(5, 'hours').format("HH");
-// console.log(hour + "00");
+
 }
 
 function updateTasks (hour) {
     // have to iterate through div blocks somehow.... 
-    
-    
-    
-    // format to get element by id
-    hour = "#" + hour + "00";
-    var divEl = $(hour);
-    textArea = divEl.children("textarea");
-    // change classes
-    textArea.removeClass("future");
-    textArea.addClass("past");
+    var keys = Object.keys(tasks);
+    hour = hour + "00";
+    console.log("moment", hour);
+    for (var i=0; i<keys.length; i++){
+        // 
+        var Objhour = keys[i];
+        if (moment(Objhour).isAfter(hour)) {
+            console.log("my data", Objhour);
+            var hourToGetDiv = "#" + hour;
+            var divEl = $(hourToGetDiv);
+            textArea = divEl.children("textarea");
+            textArea.removeClass("future");
+            textArea.addClass("past");
+        }
+    }
+    // this is not working as expected. 
 }
 setInterval(timeOfTasks, 1000 * 60);
