@@ -1,4 +1,4 @@
-// hold the tasks
+
 var tasks = {
     "0900": "",
     "1000": "",
@@ -38,20 +38,27 @@ $(document).ready(function(){
 loadTasks();
 
 function loadTasks () {
-    tasks = JSON.parse(localStorage.getItem("tasks"));
-    var keys = Object.keys(tasks);
-    for (var i=0; i<keys.length; i++){
-        // if there is an activity, update it
-        var hour = keys[i];
-        var activity = tasks[hour];
+    var getTasks = JSON.parse(localStorage.getItem("tasks"));
+    if (!getTasks) {
+        getTasks = tasks; 
+    }
+    else {
         
-        if (activity){
-            hour = "#" + hour;
-            var divEl = $(hour);
-            textArea = divEl.children("textarea");
-            textArea.val(activity);
+        var keys = Object.keys(tasks);
+        for (var i=0; i<keys.length; i++){
+            // if there is an activity, update it
+            var hour = keys[i];
+            var activity = tasks[hour];
+            
+            if (activity){
+                hour = "#" + hour;
+                var divEl = $(hour);
+                textArea = divEl.children("textarea");
+                textArea.val(activity);
+            }
         }
     }
+    saveTasks();    
 }
 
 
