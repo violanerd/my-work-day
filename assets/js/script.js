@@ -14,15 +14,19 @@ var tasks = {
 
 
 //task save was clicked
-$(".save-btn").on("click", function(){
-    
+$(".saveBtn").on("click", function(){
+  
     // get the hour and the activity
     var div = $(this).closest("div");
+    console.log(div);
     var hour = div.attr('data-time');
+    console.log(hour);
     var activity =div.children("textarea").val(); 
     // save in tasks array
+    console.log(activity);
+    
     tasks[hour]= activity;
-
+    console.log(tasks);
     // tasks gets updated in local storage
     saveTasks();
 });
@@ -39,17 +43,20 @@ loadTasks();
 
 function loadTasks () {
     var getTasks = JSON.parse(localStorage.getItem("tasks"));
+    console.log(getTasks);
     if (!getTasks) {
         getTasks = tasks; 
     }
     else {
         
-        var keys = Object.keys(tasks);
+        var keys = Object.keys(getTasks);
         for (var i=0; i<keys.length; i++){
             // if there is an activity, update it
             var hour = keys[i];
-            var activity = tasks[hour];
-            
+            var activity = getTasks[hour];
+            // set the object with the task at the hour
+            tasks[hour]= activity;
+            // update the html if there is a task
             if (activity){
                 hour = "#" + hour;
                 var divEl = $(hour);
@@ -58,10 +65,11 @@ function loadTasks () {
             }
         }
     }
-    saveTasks();    
+    saveTasks();
+    timeOfTasks();    
 }
 
-
+// add to local storage
 function saveTasks() {
     localStorage.setItem("tasks", JSON.stringify(tasks));
   };
@@ -70,22 +78,17 @@ function timeOfTasks () {
 // get the mins of the current hour
     var mins = moment().format("mm");
     if (mins === "00"){
+        // give an alert the hour has changed!
         alert("Tis a new hour");
     }
     var hour = moment().format("HH");
     updateTasks(hour);
-// if a new hour, update the tasks
-// remove the current class
-
-// check task hour against hour
-
 }
 
 function updateTasks (hour) {
     // iterate through Object to update divs
     var keys = Object.keys(tasks);
     hour = hour + "00";
-    console.log("moment", hour);
     var same ="";
     var after="";
     var hourToGetDiv ="";
@@ -105,13 +108,13 @@ function updateTasks (hour) {
         if (after) {
             hourToGetDiv = "#" + Objhour;
             divEl = $(hourToGetDiv);
-            console.log(divEl);
             textArea = divEl.children("textarea");
             textArea.removeClass("future");
+            textArea.removeClass("present");
             textArea.addClass("past");
         }
     } 
 }
-    // logic for only certain hours, how to get it to work functionally whole day -- do I need to?
 
+// check the time, update if needed
 setInterval(timeOfTasks, 1000 * 60);
